@@ -4,7 +4,7 @@ import { LOAD_SENSORS } from "../GraphQL/Queries";
 import { UPDATE_DEVICE_MUTATION, DELETE_DEVICE_MUTATION } from "../GraphQL/Mutations";
 
 
-function GetUsers() {
+function GetSensors() {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
   const { loading, error, data } = useQuery(LOAD_SENSORS);
@@ -64,5 +64,5 @@ function GetUsers() {
     </div>);
 }
 
-export default GetUsers;
+export default GetSensors;
 

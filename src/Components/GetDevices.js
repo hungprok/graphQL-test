@@ -45,8 +45,8 @@ function GetDevices(props) {
   return (<div>
     <h1>List of devices</h1>
     <ul>
-      {items.getDevices?.map(item =>
-        <li className="py-4" key={item.name}>{item.name} {item.deviceId}<div className="py-4">
+      {items.getDevices?.map((item, index) =>
+        <li className="py-4" key={item.name + index}>{item.name} ({item.deviceId})<div className="py-4">
           <input
             type="text"
             placeholder="Enter name to update"

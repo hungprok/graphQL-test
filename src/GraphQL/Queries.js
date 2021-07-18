@@ -4,7 +4,10 @@ export const LOAD_SENSORS = gql`
   query {
     getSensorsWithIoT {
      name,
-     deviceId
+     deviceId,
+serial,
+mac,
+region
     }
   }
 `;

@@ -45,8 +45,8 @@ function GetUsers() {
   return (
     <div>
       <h1>List of sensors</h1>
-      <ul>{items.getSensorsWithIoT?.map(item =>
-        <li className="py-4" key={item.name}>{item.name} {item.deviceId}
+      <ul>{items.getSensorsWithIoT?.map((item, index) =>
+        <li className="py-4" key={item.name + index}>{item.name} ({item.deviceId})
           <div className="py-4">
             <input
               type="text"

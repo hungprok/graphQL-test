@@ -1,15 +1,15 @@
 import "./App.css";
+import { setContext } from '@apollo/client/link/context';
+import GetSensors from "./Components/GetSensors";
+import GetDevices from "./Components/GetDevices";
+import { onError } from "@apollo/client/link/error";
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   HttpLink,
-  from,
+  from
 } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
-import { setContext } from '@apollo/client/link/context';
-import GetSensors from "./Components/GetSensors";
-import GetDevices from "./Components/GetDevices";
 async function getToken() {
   const url = 'https://bms-api.viatick.com/main/api/oauth2/token'
   const response = await fetch(url, {

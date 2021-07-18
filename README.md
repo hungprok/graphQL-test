@@ -1,17 +1,7 @@
-# GraphQL-ApolloClient-Template
-
-## Youtube Tutorial
-[YOUTUBE VIDEO](https://www.youtube.com/watch?v=Dr2dDWzThK8)
-
+This is a test for interview, playing with graphQL in 24h
 
 ## Stack
 FrontEnd:
 - React
 - Apollo Client
 - GraphQL
-
-BackEnd:
-- NodeJS
-- ExpressJS
-- GraphQL
-- Apollo Server

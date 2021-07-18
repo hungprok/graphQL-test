@@ -1,60 +1,45 @@
+import { UPDATE_DEVICE_MUTATION, DELETE_DEVICE_MUTATION } from "../GraphQL/Mutations";
 import React, { useState } from "react";
-import { CREATE_USER_MUTATION } from "../GraphQL/Mutations";
 import { useMutation } from "@apollo/client";
 
-function Form() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Form(props) {
+  const [name, setName] = useState("");
 
-  const [createUser, { error }] = useMutation(CREATE_USER_MUTATION);
+  const [updateDevice] = useMutation(UPDATE_DEVICE_MUTATION);
+  const [deleteDevices] = useMutation(DELETE_DEVICE_MUTATION);
 
-  const addUser = () => {
-    createUser({
+  const UpdateDevice = () => {
+    updateDevice({
       variables: {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
+        name: name,
+        deviceId: props.deviceId
       },
     });
 
-    if (error) {
-      console.log(error);
-    }
+    props.devicesUpdated()
   };
+
+  const DeleteDevice = () => {
+    deleteDevices({
+      variables: {
+        deviceIds: [props.deviceId]
+      },
+    });
+    props.devicesUpdated()
+  };
+
   return (
     <div>
       <input
         type="text"
-        placeholder="First Name"
+        placeholder="Enter name to update"
         onChange={(e) => {
-          setFirstName(e.target.value);
+          setName(e.target.value);
         }}
       />
-      <input
-        type="text"
-        placeholder="Last Name"
-        onChange={(e) => {
-          setLastName(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <button onClick={addUser}> Create User</button>
+      <div className="d-flex space-between">
+        <button className="btn btn-primary" onClick={() => UpdateDevice()}> Update</button>
+        <button className="btn btn-danger" onClick={() => DeleteDevice()}> Delete</button></div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import {
   ApolloClient,
@@ -7,8 +8,38 @@ import {
   from,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
-import GetUsers from "./Components/GetUsers";
-import Form from "./Components/Form";
+import { setContext } from '@apollo/client/link/context';
+import GetSensors from "./Components/GetSensors";
+import GetDevices from "./Components/GetDevices";
+async function getToken() {
+  // Default options are marked with *
+  const url = 'https://bms-api.viatick.com/main/api/oauth2/token'
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      'grant_type': 'client_credentials',
+      'scope': '9913127ee418b7e4b0388bd4dae1db1cde71d9d79936b68bfe0864ee1b8418fd'
+    },
+  });
+  const data = await response.json()
+  return data.access_token; // parses JSON response into native JavaScript objects
+}
+
+getToken()
+  .then(token => {
+    localStorage.setItem('token', token);
+  });
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token')
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${token}`,
+      "X-Api-Key": "da2-zlk3xmy44fg4jpj73vlwlfi7sq"
+    }
+  }
+});
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
@@ -20,21 +51,28 @@ const errorLink = onError(({ graphqlErrors, networkError }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "http://localhost:6969/graphql" }),
+  new HttpLink({
+    uri: "https://aitjmbzhsbagnbysj2jrinbrsq.appsync-api.ap-northeast-1.amazonaws.com/graphql",
+    credentials: 'same-origin'
+  }),
 ]);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: link,
+  link: authLink.concat(link),
 });
 
 function App() {
+
   return (
-    <ApolloProvider client={client}>
-      {" "}
-      {/* <GetUsers /> */}
-      <Form />
-    </ApolloProvider>
+    <div className="container pa-10">
+      <ApolloProvider client={client}>
+        <div className="row">
+          <div className="col"> {<GetSensors />}</div>
+          <div className="col">{<GetDevices />}</div>
+        </div>
+      </ApolloProvider>
+    </div>
   );
 }
 

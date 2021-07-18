@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import {
   ApolloClient,
@@ -12,17 +11,16 @@ import { setContext } from '@apollo/client/link/context';
 import GetSensors from "./Components/GetSensors";
 import GetDevices from "./Components/GetDevices";
 async function getToken() {
-  // Default options are marked with *
   const url = 'https://bms-api.viatick.com/main/api/oauth2/token'
   const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    method: 'POST',
     headers: {
       'grant_type': 'client_credentials',
       'scope': '9913127ee418b7e4b0388bd4dae1db1cde71d9d79936b68bfe0864ee1b8418fd'
     },
   });
   const data = await response.json()
-  return data.access_token; // parses JSON response into native JavaScript objects
+  return data.access_token;
 }
 
 getToken()
